@@ -12,16 +12,30 @@ let siswa =[
 function renderTable(data){
     const container = document.getElementById('data-container')
     container.innerHTML = ''
-    data.forEach((item, i) => {
-        const row = `
+    const rows = data.map((item, i) =>
+        `
         <tr>
            <td>${i+1}</td>
            <td>${item.name}</td>
            <td>${item.class}</td>
            <td>${item.score}</td>
         </tr>
-        `;
-        container.innerHTML += row;
-    });
+        `
+    );
+    container.innerHTML = rows.join('');
+    document.getElementById('Rata-Rata').innerText = `   ${(data.reduce((acc, item) => acc + item.score, 0) / data.length).toFixed(1)}   `
+
 }
 renderTable(siswa);
+
+
+document.getElementById('cari-nama').addEventListener('input', function (){
+    const keyword = this.value;
+    const filtered = siswa.filter((item) => 
+        item.name.includes(keyword)
+    );
+    renderTable(filtered);
+})
+document.getElementById('button1').addEventListener('click', function (e) {
+    e.preventDefault();
+});
